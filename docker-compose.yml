@@ -1,0 +1,24 @@
+version: "3.9"
+services:
+
+  eureka:
+    container_name: eureka-container
+    build: ./Eureka_Server
+    hostname: localhost
+    ports:
+      - "8761:8761"   
+    image: "eureka-image"
+
+  api-gateway:
+    container_name: api-gateway-container
+    image: "apigateway" #if image not found build how?
+    build: ./Api_Gateway
+    ports:
+      - "8090:8090"
+    environment:
+      - EUREKA_CLIENT_SERVICEURL_DEFAULTZONE=http://localhost:8761/eureka/
+    depends_on:
+      - eureka
+
+
+
